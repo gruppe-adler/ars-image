@@ -22,10 +22,10 @@ Tags must follow this four-part format, matching the Arma Reforger version numbe
 
 ### Examples
 
-| Git Tag | Docker tags produced | Steam branch |
+| Git Tag | Tags produced | Steam branch |
 | --- | --- | --- |
-| `1.6.0.119.stable` | `arsa-test:stable`, `arsa-test:1.6.0.119` | Stable (App ID 1874900) |
-| `1.7.0.24.experimental` | `arsa-test:experimental`, `arsa-test:1.7.0.24` | Experimental (App ID 1890870) |
+| `1.6.0.119.stable` | `ars-image::stable`, `ars-image::1.6.0.119` | Stable (App ID 1874900) |
+| `1.7.0.24.experimental` | `ars-image::experimental`, `ars-image::1.7.0.24` | Experimental (App ID 1890870) |
 
 > **Tip:** Match the tag to the official Arma Reforger version number shown in-game or on the
 > [Arma Reforger news page](https://reforger.armaplatform.com/news) so it's clear which game build the image contains.
@@ -38,9 +38,9 @@ Tags must follow this four-part format, matching the Arma Reforger version numbe
    - **VERSION** — everything before the last dot (e.g. `1.6.0.119`)
    - **BRANCH_NAME** — the last segment (`stable` or `experimental`)
 2. If `BRANCH_NAME` is `experimental`, Steam downloads from App ID `1890870` (the experimental branch); otherwise it uses `1874900` (stable).
-3. Two Docker tags are pushed to Docker Hub:
-   - `thewillard/arsa-test:<branch>` — floating tag, always points to the latest build on that channel
-   - `thewillard/arsa-test:<version>` — pinned tag for this exact game version
+3. Two Tags are pushed to GitHub Hub:
+   - `ghcr.io/gruppe-adler/ars-image:<branch>` — floating tag, always points to the latest build on that channel
+   - `ghcr.io/gruppe-adler/ars-image:<version>` — pinned tag for this exact game version
 
 ---
 
