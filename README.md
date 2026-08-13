@@ -24,8 +24,8 @@ Tags must follow this four-part format, matching the Arma Reforger version numbe
 
 | Git Tag | Tags produced | Steam branch |
 | --- | --- | --- |
-| `1.6.0.119.stable` | `ars-image::stable`, `ars-image::1.6.0.119` | Stable (App ID 1874900) |
-| `1.7.0.24.experimental` | `ars-image::experimental`, `ars-image::1.7.0.24` | Experimental (App ID 1890870) |
+| `1.6.0.119.stable` | `ars-image:stable`, `ars-image:1.6.0.119` | Stable (App ID 1874900) |
+| `1.7.0.24.experimental` | `ars-image:experimental`, `ars-image:1.7.0.24` | Experimental (App ID 1890870) |
 
 > **Tip:** Match the tag to the official Arma Reforger version number shown in-game or on the
 > [Arma Reforger news page](https://reforger.armaplatform.com/news) so it's clear which game build the image contains.
