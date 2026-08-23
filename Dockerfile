@@ -16,15 +16,6 @@ USER root
 # install Arma Reforger Server with steamcmd to /ars
 RUN steamcmd +force_install_dir /ars +login anonymous +@sSteamCmdForcePlatformType linux +app_update ${STEAM_APP_ID} validate +quit
 
-# change owner of /ars to ubuntu user and group to allow executing it
-RUN chown -R ubuntu:ubuntu /ars
-
-# create group 'arsa'(gid 1337) and add user 'ubuntu' to that group to allow accessing config and profile
-RUN groupadd --gid 1337 arsa && usermod -a -G arsa ubuntu
-
-# switch to unprivileged user 'ubuntu'
-USER ubuntu
-
 # set working directory
 WORKDIR "/ars"
 
