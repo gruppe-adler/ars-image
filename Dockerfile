@@ -19,8 +19,4 @@ RUN steamcmd +force_install_dir /ars +login anonymous +@sSteamCmdForcePlatformTy
 # set working directory
 WORKDIR "/ars"
 
-EXPOSE 2001/tcp
-EXPOSE 17777/tcp
-EXPOSE 19999/tcp
-
 ENTRYPOINT ["./ArmaReforgerServer"]
