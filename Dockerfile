@@ -14,7 +14,14 @@ LABEL de.grad.arsa.version=${VERSION}
 USER root
 
 # install Arma Reforger Server with steamcmd to /ars
+# The files stay owned by root: they are world readable and executable, and the server only writes
+# to -profile, -addonDownloadDir and /tmp. A 'chown -R' would copy the whole install into another layer.
 RUN steamcmd +force_install_dir /ars +login anonymous +@sSteamCmdForcePlatformType linux +app_update ${STEAM_APP_ID} validate +quit
+
+# Run as the unprivileged user 'ubuntu' (1000). arsa-backend also runs as 1000 and owns the mounted
+# config, profile and addon directories. The base image sets HOME=/root, which 1000 can't write to.
+USER 1000:1000
+ENV HOME=/home/ubuntu USER=ubuntu
 
 # set working directory
 WORKDIR "/ars"
