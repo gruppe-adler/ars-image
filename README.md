@@ -1,6 +1,6 @@
 # Arma Reforger Dedicated Server — Docker via Git Tags
 
-This repository uses a GitHub Actions CI pipeline that automatically builds and pushes an **Arma Reforger dedicated server** Docker image to Docker Hub whenever a git tag is pushed. No manual workflow triggering is needed — just push a tag in the right format.
+This repository uses a GitHub Actions CI pipeline that automatically builds and pushes an **Arma Reforger dedicated server** Docker image to the GitHub Container Registry (`ghcr.io/gruppe-adler/ars-image`) whenever a git tag is pushed. No manual workflow triggering is needed — just push a tag in the right format.
 
 ---
 
@@ -38,9 +38,19 @@ Tags must follow this four-part format, matching the Arma Reforger version numbe
    - **VERSION** — everything before the last dot (e.g. `1.6.0.119`)
    - **BRANCH_NAME** — the last segment (`stable` or `experimental`)
 2. If `BRANCH_NAME` is `experimental`, Steam downloads from App ID `1890870` (the experimental branch); otherwise it uses `1874900` (stable).
-3. Two Tags are pushed to GitHub Hub:
+3. Two tags are pushed to the GitHub Container Registry:
    - `ghcr.io/gruppe-adler/ars-image:<branch>` — floating tag, always points to the latest build on that channel
    - `ghcr.io/gruppe-adler/ars-image:<version>` — pinned tag for this exact game version
+
+---
+
+## Runtime User
+
+The server runs as the unprivileged user `ubuntu` (`1000:1000`) with `HOME=/home/ubuntu`. The installation in `/ars` stays owned by root and is only read and executed; the server writes to the `-profile` and `-addonDownloadDir` directories and `/tmp`.
+
+[arsa-backend](https://github.com/gruppe-adler/arsa-backend) also runs as `1000:1000` and owns the mounted config, profile and mod directories. It starts the server containers with that user explicitly (`ARSA_ARS_USER`), with all capabilities dropped and `no-new-privileges`, so older tags of this image that default to root run unprivileged as well.
+
+When running the image by hand, the mounted directories must be writable for `1000:1000`.
 
 ---
 
