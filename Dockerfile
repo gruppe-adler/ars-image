@@ -1,5 +1,6 @@
-# steamcmd/steamcmd:latest is based on ubuntu
-FROM steamcmd/steamcmd:latest
+# steamcmd/steamcmd:latest is based on ubuntu. Pinned by digest so a new steamcmd version can't break the
+# build unnoticed; bump it on purpose with: docker buildx imagetools inspect steamcmd/steamcmd:latest
+FROM steamcmd/steamcmd:latest@sha256:7d9bef424526d66b3f3aa5290f701e4ebea725f47c2320f107905a88f9293c37
 
 # Build argument for Steam app ID (defaults to stable Arma Reforger Server)
 ARG STEAM_APP_ID=1874900
@@ -16,7 +17,10 @@ USER root
 # install Arma Reforger Server with steamcmd to /ars
 # The files stay owned by root: they are world readable and executable, and the server only writes
 # to -profile, -addonDownloadDir and /tmp. A 'chown -R' would copy the whole install into another layer.
-RUN steamcmd +force_install_dir /ars +login anonymous +@sSteamCmdForcePlatformType linux +app_update ${STEAM_APP_ID} validate +quit
+# The first 'steamcmd +quit' lets steamcmd bootstrap/update itself. Since steamcmd 1794537082, doing that
+# in the same run as app_update fails with "ERROR! Failed to install app (Missing configuration)", exit code 8.
+RUN steamcmd +quit && \
+    steamcmd +force_install_dir /ars +login anonymous +@sSteamCmdForcePlatformType linux +app_update ${STEAM_APP_ID} validate +quit
 
 # Run as the unprivileged user 'ubuntu' (1000). arsa-backend also runs as 1000 and owns the mounted
 # config, profile and addon directories. The base image sets HOME=/root, which 1000 can't write to.
